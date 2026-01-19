@@ -1,7 +1,9 @@
 {
   "name": "random-chat",
   "scripts": {
-    "dev": "bun run --hot src/index.ts"
+    "dev": "bun run --hot src/index.ts",
+    "drizzle:push": "drizzle-kit generate --config=drizzle.config.ts",
+    "drizzle:migrate": "drizzle-kit migrate --config=drizzle.config.ts"
   },
   "dependencies": {
     "drizzle-orm": "^0.45.1",
