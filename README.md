@@ -1,16 +1,11 @@
-# random-chat
-
 To install dependencies:
-
-```bash
+```sh
 bun install
 ```
 
 To run:
-
-```bash
-bun run index.ts
+```sh
+bun run dev
 ```
 
-This project was created using `bun init` in bun v1.3.0. [Bun](https://bun.com) is a fast all-in-one JavaScript runtime.
-# random-chat
+open http://localhost:3000
