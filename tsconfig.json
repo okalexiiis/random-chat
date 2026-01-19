@@ -3,7 +3,8 @@
     "strict": true,
     "baseUrl": ".",
     "paths": {
-      "@modules/*": ["src/modules/*"]
+      "@modules/*": ["src/modules/*"],
+      "@types/*": ["src/core/types/*"]
     }
   }
 }

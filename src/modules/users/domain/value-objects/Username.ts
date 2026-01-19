@@ -1,3 +1,5 @@
+import { Result } from "@types/Result";
+
 export class Username {
   readonly value: string;
 
@@ -5,9 +7,11 @@ export class Username {
     this.value = value;
   }
 
-  static create(value: string): Username {
-    if (!value || value.length < 3) throw new Error("Username inválido");
-    return new Username(value);
+  static create(value: string): Result<Username> {
+    if (!value || value.length < 3) {
+      return { isOk: false, error: new Error("Username inválido") };
+    }
+    return { isOk: true, value: new Username(value) };
   }
 
   static fromPersistence(value: string): Username {
