@@ -5,7 +5,7 @@ import { Username } from "./value-objects/Username";
  * Interface that represents an User from Persistence (DB)
  */
 interface UserPersistence {
-  id: number;
+  id: string;
   username: string;
   password: string;
 }
@@ -17,11 +17,11 @@ interface UserPersistence {
  * @readonly password
  */
 export class User {
-  readonly id: number;
+  readonly id: string;
   readonly username: Username;
   readonly password: Password;
 
-  private constructor(id: number, username: Username, password: Password) {
+  private constructor(id: string, username: Username, password: Password) {
     this.id = id;
     this.username = username;
     this.password = password;
@@ -47,6 +47,6 @@ export class User {
    * @returns A New User Instance
    */
   static create(username: Username, password: Password) {
-    return new User(0, username, password);
+    return new User("", username, password);
   }
 }

@@ -1,3 +1,9 @@
-export interface RegisterUserRequest {}
+export interface RegisterUserRequest {
+  username: string;
+  password: string;
+}
 
-export interface RegisterUserResponse {}
+export interface RegisterUserResponse {
+  id: string;
+  username: string;
+}
