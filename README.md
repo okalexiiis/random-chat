@@ -4,10 +4,10 @@
 Random-Chat is a real-time chat application built with a focus on clean architecture. It uses Bun as the runtime, Hono for the web framework, PostgreSQL with Drizzle ORM for data persistence, and TypeScript for type safety. The project is modular, with domain-driven design principles.
 
 ## Current State
-- **Backend**: Minimal API with user registration (`POST /api/v1/users/register`). Includes basic validation, password hashing, and database integration.
+- **Backend**: API with user registration (`POST /api/v1/users/register`) and login (`POST /api/v1/users/login`). Includes JWT authentication, protected routes (e.g., `GET /api/v1/users/me`), validation, password hashing, and database integration.
 - **Architecture**: Clean layers (domain, application, infrastructure) with dependency injection.
-- **Tech Stack**: Bun, Hono, Drizzle, PostgreSQL, bcrypt.
-- **Features**: User registration only; no authentication, chat, or frontend.
+- **Tech Stack**: Bun, Hono, Drizzle, PostgreSQL, bcrypt, jose (JWT).
+- **Features**: User auth and basic profile; no chat or frontend yet.
 - **Development**: Runs on `http://localhost:3000` with hot reload.
 
 ## Code Quality Improvements (Applied)
@@ -22,10 +22,10 @@ Random-Chat is a real-time chat application built with a focus on clean architec
 ## Areas for Improvement
 
 ### High Priority
-1. **Authentication System**
-   - Add login/logout with JWT tokens.
-   - Implement middleware to protect routes.
-   - Store JWT secrets securely in `.env`.
+1. **Authentication System** ✅ **Completed**
+   - Login/logout with JWT tokens implemented.
+   - Middleware protects routes.
+   - JWT secret in container (set via env).
 
 2. **Chat Functionality**
    - Implement rooms and messages.
@@ -69,6 +69,8 @@ Random-Chat is a real-time chat application built with a focus on clean architec
 1. Clone the repo.
 2. Run `docker-compose up` for PostgreSQL.
 3. In `backend/`, run `bun install` and `bun run dev`.
-4. Test registration: `curl -X POST http://localhost:3000/api/v1/users/register -H "Content-Type: application/json" -d '{"username":"test","password":"password123"}'`.
+4. Register: `curl -X POST http://localhost:3000/api/v1/users/register -H "Content-Type: application/json" -d '{"username":"test","password":"password123"}'`.
+5. Login: `curl -X POST http://localhost:3000/api/v1/users/login -H "Content-Type: application/json" -d '{"username":"test","password":"password123"}'` (returns token).
+6. Access protected route: `curl -H "Authorization: Bearer <token>" http://localhost:3000/api/v1/users/me`.
 
 For contributions, focus on the high-priority items or propose new features via issues.
