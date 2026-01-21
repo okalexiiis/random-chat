@@ -1,5 +1,5 @@
 import { hash, compare } from "bcrypt";
-import { PasswordHasher } from "@modules/users/application/interfaces/passwordHasher";
+import { PasswordHasher } from "@modules/users/application/interfaces";
 
 export class BcryptPassHasher implements PasswordHasher {
   async compare(password: string, hash: string): Promise<boolean> {
