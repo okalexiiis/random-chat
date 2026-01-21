@@ -6,13 +6,13 @@ import { RegisterUser } from "@modules/users/application/RegisterUser";
 import { DrizzleUserRepository } from "@modules/users/infrastructure/repositories/DrizzleUserRepository";
 import { BcryptPassHasher } from "@modules/users/infrastructure/repositories/BcryptPassHasher";
 
-const repo = new DrizzleUserRepository()
+const repo = new DrizzleUserRepository();
 
-const UC_RegisterUser = new RegisterUser(repo, new  BcryptPassHasher())
-const C_UserRegister = new RegisterUserController(UC_RegisterUser)
+const UC_RegisterUser = new RegisterUser(repo, new BcryptPassHasher());
+const C_UserRegister = new RegisterUserController(UC_RegisterUser);
 
-const router = new Hono()
+const router = new Hono();
 
-router.post("/register", (ctx) => C_UserRegister.execute(ctx))
+router.post("/register", (ctx) => C_UserRegister.execute(ctx));
 
-export default router 
+export default router;

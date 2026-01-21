@@ -4,14 +4,24 @@ import { users } from "@core/db/drizzle/schemas/users";
 import { User } from "../../domain/User";
 import { Username } from "../../domain/value-objects/Username";
 import { Password } from "../../domain/value-objects/Password";
-import { UserRepository, PaginationOptions, PaginatedUsers } from "../../application/user.repository";
+import {
+  UserRepository,
+  PaginationOptions,
+  PaginatedUsers,
+} from "../../application/user.repository";
 
 export class DrizzleUserRepository implements UserRepository {
-  async findOne(criteria: { id?: string; username?: string }): Promise<User | null> {
+  async findOne(criteria: {
+    id?: string;
+    username?: string;
+  }): Promise<User | null> {
     let whereClause = undefined;
 
     if (criteria.id && criteria.username) {
-      whereClause = and(eq(users.id, criteria.id), eq(users.username, criteria.username));
+      whereClause = and(
+        eq(users.id, criteria.id),
+        eq(users.username, criteria.username),
+      );
     } else if (criteria.id) {
       whereClause = eq(users.id, criteria.id);
     } else if (criteria.username) {
@@ -23,13 +33,11 @@ export class DrizzleUserRepository implements UserRepository {
     const result = await db.select().from(users).where(whereClause).limit(1);
     if (result.length === 0) return null;
     const row = result[0];
-    return User.fromPersistence(
-      {
+    return User.fromPersistence({
       id: row.id,
       username: Username.fromPersistence(row.username).value,
-      password: Password.fromPersistence(row.password).value
-      }
-    );
+      password: Password.fromPersistence(row.password).value,
+    });
   }
 
   async findAll(options: PaginationOptions): Promise<PaginatedUsers> {
@@ -43,19 +51,20 @@ export class DrizzleUserRepository implements UserRepository {
 
     const [usersResult, totalResult] = await Promise.all([
       db.select().from(users).where(whereClause).limit(limit).offset(offset),
-      db.select({ count: sql<number>`count(*)` }).from(users).where(whereClause)
+      db
+        .select({ count: sql<number>`count(*)` })
+        .from(users)
+        .where(whereClause),
     ]);
 
     const total = totalResult[0].count;
 
-    const usersMapped = usersResult.map(row =>
-      User.fromPersistence(
-      {
-      id: row.id,
-      username: Username.fromPersistence(row.username).value,
-      password: Password.fromPersistence(row.password).value
-      }
-      )
+    const usersMapped = usersResult.map((row) =>
+      User.fromPersistence({
+        id: row.id,
+        username: Username.fromPersistence(row.username).value,
+        password: Password.fromPersistence(row.password).value,
+      }),
     );
 
     return {
@@ -67,37 +76,40 @@ export class DrizzleUserRepository implements UserRepository {
   }
 
   async save(user: User): Promise<User> {
-    const result = await db.insert(users).values({
-      username: user.username.value,
-      password: user.password.value,
-    }).returning();
+    const result = await db
+      .insert(users)
+      .values({
+        username: user.username.value,
+        password: user.password.value,
+      })
+      .returning();
 
     const inserted = result[0];
-    return User.fromPersistence(
-      {
+    return User.fromPersistence({
       id: inserted.id,
       username: Username.fromPersistence(inserted.username).value,
-      password: Password.fromPersistence(inserted.password).value
-      }
-    );
+      password: Password.fromPersistence(inserted.password).value,
+    });
   }
 
   async update(user: User): Promise<User> {
-    const result = await db.update(users).set({
-      username: user.username.value,
-      password: user.password.value,
-    }).where(eq(users.id, user.id)).returning();
+    const result = await db
+      .update(users)
+      .set({
+        username: user.username.value,
+        password: user.password.value,
+      })
+      .where(eq(users.id, user.id))
+      .returning();
 
     if (result.length === 0) throw new Error("User not found for update");
 
     const updated = result[0];
-    return User.fromPersistence(
-      {
+    return User.fromPersistence({
       id: updated.id,
       username: Username.fromPersistence(updated.username).value,
-      password: Password.fromPersistence(updated.password).value
-      }
-    );
+      password: Password.fromPersistence(updated.password).value,
+    });
   }
 
   async delete(id: string): Promise<void> {
