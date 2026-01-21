@@ -21,6 +21,13 @@ export class ValidationError extends DomainError {
   }
 }
 
+export class InvalidRequestError extends DomainError {
+  constructor(message: string) {
+    super(message);
+    this.name = "InvalidRequestError";
+  }
+}
+
 export class UnauthorizedError extends DomainError {
   constructor(message = "Unauthorized") {
     super(message);
