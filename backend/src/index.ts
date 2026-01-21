@@ -1,16 +1,20 @@
 //src/index.ts
 import { Hono } from "hono";
 import { errorHandler } from "@core/middlewares/ErrorHandler";
+import { createUserContainer } from "@modules/users/container";
 
 // Routers
-import UserV1 from "@modules/users/infrastructure/http/v1/routes/";
+import createUserRoutes from "@modules/users/infrastructure/http/v1/routes/";
 
 const port = Bun.env.PORT;
 const app = new Hono();
 
 app.onError(errorHandler);
 
-app.route("/api/v1/users", UserV1);
+// Initialize container once at startup
+const userContainer = createUserContainer();
+
+app.route("/api/v1/users", createUserRoutes(userContainer));
 
 app.all("*", (ctx) => {
   return ctx.json(

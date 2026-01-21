@@ -1,18 +1,17 @@
 //src/modules/users/infrastructure/http/v1/routes/index.ts
 
 import { Hono } from "hono";
-import { RegisterUserController } from "../handlers/register-user.controller";
-import { RegisterUser } from "@modules/users/application/RegisterUser";
-import { DrizzleUserRepository } from "@modules/users/infrastructure/repositories/DrizzleUserRepository";
-import { BcryptPassHasher } from "@modules/users/infrastructure/repositories/BcryptPassHasher";
+import { IUserContainer } from "@modules/users/container";
+import { assertRegisterUserRequest } from "../middlewares/validate-register-user-controller.middleware";
 
-const repo = new DrizzleUserRepository();
+export default function createUserRoutes(container: IUserContainer) {
+  const C_UserRegister = container.registerUserController;
 
-const UC_RegisterUser = new RegisterUser(repo, new BcryptPassHasher());
-const C_UserRegister = new RegisterUserController(UC_RegisterUser);
+  const router = new Hono();
 
-const router = new Hono();
+  router.post("/register", assertRegisterUserRequest, (ctx) =>
+    C_UserRegister.execute(ctx),
+  );
 
-router.post("/register", (ctx) => C_UserRegister.execute(ctx));
-
-export default router;
+  return router;
+}
