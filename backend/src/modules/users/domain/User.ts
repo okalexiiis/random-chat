@@ -1,14 +1,6 @@
 import { Password } from "./value-objects/Password";
 import { Username } from "./value-objects/Username";
-
-/**
- * Interface that represents an User from Persistence (DB)
- */
-interface UserPersistence {
-  id: string;
-  username: string;
-  password: string;
-}
+import { UserPersistence } from "@core/types/UserPersistence";
 
 /**
  * User Domain Entity Class
@@ -41,12 +33,13 @@ export class User {
   }
 
   /**
-   *
-   * @param username : Username
-   * @param password : Password
-   * @returns A New User Instance
-   */
+    *
+    * @param username : Username
+    * @param password : Password
+    * @returns A New User Instance
+    */
   static create(username: Username, password: Password) {
-    return new User("", username, password);
+    const id = crypto.randomUUID();
+    return new User(id, username, password);
   }
 }
