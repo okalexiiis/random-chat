@@ -32,7 +32,7 @@ export class User {
    * @param raw UserPersistence Interface
    * @returns An User entity that is in the DB
    */
-  static fromPersistance(raw: UserPersistence) {
+  static fromPersistence(raw: UserPersistence) {
     return new User(
       raw.id,
       Username.fromPersistence(raw.username),

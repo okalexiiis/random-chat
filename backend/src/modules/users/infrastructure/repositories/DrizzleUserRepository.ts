@@ -24,9 +24,11 @@ export class DrizzleUserRepository implements UserRepository {
     if (result.length === 0) return null;
     const row = result[0];
     return User.fromPersistence(
-      row.id,
-      Username.fromPersistence(row.username),
-      Password.fromPersistence(row.password)
+      {
+      id: row.id,
+      username: Username.fromPersistence(row.username).value,
+      password: Password.fromPersistence(row.password).value
+      }
     );
   }
 
@@ -48,9 +50,11 @@ export class DrizzleUserRepository implements UserRepository {
 
     const usersMapped = usersResult.map(row =>
       User.fromPersistence(
-        row.id,
-        Username.fromPersistence(row.username),
-        Password.fromPersistence(row.password)
+      {
+      id: row.id,
+      username: Username.fromPersistence(row.username).value,
+      password: Password.fromPersistence(row.password).value
+      }
       )
     );
 
@@ -70,9 +74,11 @@ export class DrizzleUserRepository implements UserRepository {
 
     const inserted = result[0];
     return User.fromPersistence(
-      inserted.id,
-      Username.fromPersistence(inserted.username),
-      Password.fromPersistence(inserted.password)
+      {
+      id: inserted.id,
+      username: Username.fromPersistence(inserted.username).value,
+      password: Password.fromPersistence(inserted.password).value
+      }
     );
   }
 
@@ -86,9 +92,11 @@ export class DrizzleUserRepository implements UserRepository {
 
     const updated = result[0];
     return User.fromPersistence(
-      updated.id,
-      Username.fromPersistence(updated.username),
-      Password.fromPersistence(updated.password)
+      {
+      id: updated.id,
+      username: Username.fromPersistence(updated.username).value,
+      password: Password.fromPersistence(updated.password).value
+      }
     );
   }
 
