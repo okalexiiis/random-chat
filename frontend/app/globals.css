@@ -1,38 +1,45 @@
+@import url("https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap");
 @import "tailwindcss";
-
 
 :root {
   /* Light Mode */
   --background: hsl(52.94, 73.91%, 90.98%);
-  --foreground: hsl(0.00, 0.00%, 15.69%);
+  --background-secondary: hsl(45.56, 67.5%, 84.31%);
+  --foreground: hsl(0, 0%, 15.69%);
 
-  --green:hsl(57.20, 79.26%, 26.47%);
-  --green-muted: hsl(59.52, 70.79%, 34.90%);
-  --red: hsl(357.71, 100.00%, 30.78%);
-  --red-muted: hsl(2.40, 75.11%, 45.69%);
+  --green: hsl(57.2, 79.26%, 26.47%);
+  --green-muted: hsl(59.52, 70.79%, 34.9%);
+  --red: hsl(357.71, 100%, 30.78%);
+  --red-muted: hsl(2.4, 75.11%, 45.69%);
 }
 
 @theme inline {
   --color-background: var(--background);
+  --color-background-secondary: var(--background-secondary);
   --color-foreground: var(--foreground);
+  --color-green: var(--green);
+  --color-green-muted: var(--green-muted);
+  --color-red: var(--red);
+  --color-red-muted: var(--red-muted);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-  --background: hsl(195.00, 6.45%, 12.16%);
-  --foreground: hsl(48.46, 86.67%, 88.24%);
+    --background: hsl(0, 0%, 15.7%);
+    --background-secondary: hsl(30, 12%, 23%);
+    --foreground: hsl(46, 77%, 82%);
 
-  --green:hsl(61.21, 66.22%, 44.12%);
-  --green-muted: hsl(59.52, 70.79%, 34.90%);
-  --red: hsl(6.33, 96.14%, 59.41%);
-  --red-muted: hsl(2.40, 75.11%, 45.69%);
+    --green: hsl(61.21, 66.22%, 44.12%);
+    --green-muted: hsl(59.52, 70.79%, 34.9%);
+    --red: hsl(3, 85%, 43%);
+    --red-muted: hsl(4, 85%, 61%);
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Geist Mono";
 }
