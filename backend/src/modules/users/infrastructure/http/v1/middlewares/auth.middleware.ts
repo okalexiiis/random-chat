@@ -1,7 +1,7 @@
 //src/modules/users/infrastructure/http/v1/middlewares/auth.middleware.ts
 import { InvalidRequestError } from "@core/types/Errors";
 import { Context, Next } from "hono";
-import { JwtTokenService } from "../../services/JwtTokenService";
+import { JwtTokenService } from "../../../services/JwtTokenService";
 
 export function createAuthMiddleware(tokenService: JwtTokenService) {
   return async (ctx: Context, next: Next) => {
