@@ -1,5 +1,6 @@
 //src/modules/users/infrastructure/http/v1/handlers/get-user-profile.controller.ts
 import { GetUserProfile } from "@modules/users/application/use-cases/GetUserProfile";
+import { apiResponse } from "@core/utils/response";
 import { Context } from "hono";
 
 export class GetUserProfileController {
@@ -12,6 +13,6 @@ export class GetUserProfileController {
 
     if (!result.isOk) throw result.error;
 
-    return ctx.json(result.value);
+    return apiResponse(ctx, 200, result.value);
   }
 }

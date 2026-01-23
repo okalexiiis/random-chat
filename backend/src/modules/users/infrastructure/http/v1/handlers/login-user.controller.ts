@@ -1,6 +1,7 @@
 //src/modules/users/infrastructure/http/v1/handlers/login-user.controller.ts
 import { LoginUser } from "@modules/users/application/use-cases/LoginUser";
 import { LoginUserRequest } from "@modules/users/application/use-cases/LoginUser/dto";
+import { apiResponse } from "@core/utils/response";
 import { Context } from "hono";
 
 export class LoginUserController {
@@ -13,6 +14,6 @@ export class LoginUserController {
 
     if (!result.isOk) throw result.error;
 
-    return ctx.json(result.value);
+    return apiResponse(ctx, 200, result.value);
   }
 }
