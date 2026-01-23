@@ -9,6 +9,7 @@ import {
   ExternalServiceError,
 } from "../types/Errors";
 import { env } from "bun";
+import { apiErrorResponse } from "@core/utils/response";
 
 const generateRequestId = (): string => {
   return `req_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
@@ -42,14 +43,13 @@ export const errorHandler = (err: Error, ctx: Context): Response => {
     }
 
     // Response to client
-    const payload: any = {
-      error: err.message,
+    const errorPayload: any = {
+      message: err.message,
       code: err.name,
-      requestId,
     };
-    if ("details" in err) payload.details = (err as any).details;
+    if ("details" in err) errorPayload.details = (err as any).details;
 
-    return ctx.json(payload, status);
+    return apiErrorResponse(ctx, status, errorPayload, requestId);
   }
 
   if (err instanceof InfrastructureError) {
@@ -61,13 +61,12 @@ export const errorHandler = (err: Error, ctx: Context): Response => {
       `[INFRA ERROR] [REQ: ${requestId}] [PATH: ${ctx.req.path}] ${err.name}: ${err.message}`,
     );
 
-    const payload: any = {
-      error: isDev ? err.message : "Internal Server Error",
+    const errorPayload: any = {
+      message: isDev ? err.message : "Internal Server Error",
       code: err.name,
-      requestId,
     };
 
-    return ctx.json(payload, status);
+    return apiErrorResponse(ctx, status, errorPayload, requestId);
   }
 
   // Other unexpected errors
@@ -75,11 +74,10 @@ export const errorHandler = (err: Error, ctx: Context): Response => {
     `[UNHANDLED ERROR] [REQ: ${requestId}] [PATH: ${ctx.req.path}] ${err.name || "Error"}: ${(err as Error).message}`,
   );
 
-  const payload: any = {
-    error: isDev ? err.message : "Internal Server Error",
+  const errorPayload: any = {
+    message: isDev ? err.message : "Internal Server Error",
     code: "UnhandledError",
-    requestId,
   };
 
-  return ctx.json(payload, 500);
+  return apiErrorResponse(ctx, 500, errorPayload, requestId);
 };
